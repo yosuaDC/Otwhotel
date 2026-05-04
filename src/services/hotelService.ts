@@ -98,6 +98,47 @@ export const mockHotels: Hotel[] = [
   }
 ];
 
+export interface Booking {
+  id: string;
+  hotelId: string;
+  hotelName: string;
+  hotelImage: string;
+  location: string;
+  dateRange: string;
+  totalPrice: number;
+  status: 'confirmed' | 'completed' | 'cancelled';
+  bookedAt: string;
+}
+
+export const getBookingHistory = async (): Promise<Booking[]> => {
+  await new Promise(resolve => setTimeout(resolve, 1500)); // Simulate loading
+  
+  return [
+    {
+      id: 'BK-7721',
+      hotelId: '2',
+      hotelName: 'Seminyak Sands Resort',
+      hotelImage: 'https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&q=80',
+      location: 'Seminyak, Bali',
+      dateRange: 'May 12 - May 15, 2026',
+      totalPrice: 13500000,
+      status: 'confirmed',
+      bookedAt: '2026-04-20'
+    },
+    {
+      id: 'BK-6554',
+      hotelId: '1',
+      hotelName: 'The Uluwatu Cliff',
+      hotelImage: 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&q=80',
+      location: 'Uluwatu, Bali',
+      dateRange: 'Apr 02 - Apr 05, 2026',
+      totalPrice: 22500000,
+      status: 'completed',
+      bookedAt: '2026-03-10'
+    }
+  ];
+};
+
 export async function searchHotels(destination: string, dates: string) {
   // Simulate AI/Algorithm delay
   await new Promise(resolve => setTimeout(resolve, 1500));

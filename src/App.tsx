@@ -11,6 +11,7 @@ import { HotelDetail } from '@/src/components/hotel/HotelDetail';
 import { BookingSuccess } from '@/src/components/hotel/BookingSuccess';
 import { AuthModal } from '@/src/components/auth/AuthModal';
 import { ProfileSection } from '@/src/components/profile/ProfileSection';
+import { PromotedStaySection } from '@/src/components/home/PromotedStaySection';
 
 type AppStep = 'home' | 'results' | 'detail' | 'booking-success' | 'profile';
 
@@ -115,15 +116,22 @@ export default function App() {
       <main className="flex-grow">
         <AnimatePresence mode="wait">
           {step === 'home' && (
-            <HeroSection 
+            <motion.div 
               key="home"
-              destination={destination} 
-              setDestination={setDestination}
-              dateRange={dateRange}
-              setDateRange={setDateRange}
-              handleSearch={handleSearch} 
-              isSearching={isSearching} 
-            />
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              <HeroSection 
+                destination={destination} 
+                setDestination={setDestination}
+                dateRange={dateRange}
+                setDateRange={setDateRange}
+                handleSearch={handleSearch} 
+                isSearching={isSearching} 
+              />
+              <PromotedStaySection />
+            </motion.div>
           )}
 
           {step === 'results' && (
@@ -143,7 +151,34 @@ export default function App() {
               hotel={selectedHotel} 
               dateRange={dateRange}
               onBack={handleBackToResults} 
-              onBook={() => setStep('booking-success')}
+              onBook={async () => {
+                if (!user) {
+                  setIsAuthModalOpen(true);
+                  return;
+                }
+                
+                // Transition to success step
+                setStep('booking-success');
+
+                // Send confirmation email in background
+                try {
+                  await fetch('/api/send-confirmation', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                      email: user.email,
+                      name: user.name,
+                      hotelName: selectedHotel.name,
+                      checkIn: dateRange.start ? format(dateRange.start, 'PPP') : 'Not set',
+                      checkOut: dateRange.end ? format(dateRange.end, 'PPP') : 'Not set',
+                      bookingId: `BK-${Math.floor(1000 + Math.random() * 9000)}`,
+                      totalPrice: selectedHotel.price * 3 // Mock 3 nights
+                    })
+                  });
+                } catch (error) {
+                  console.error('Failed to send email:', error);
+                }
+              }}
             />
           )}
 

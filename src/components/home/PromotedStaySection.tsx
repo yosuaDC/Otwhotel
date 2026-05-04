@@ -4,7 +4,10 @@ import { Timer, Star, MapPin, ChevronRight } from 'lucide-react';
 import { PromotedStay, getPromotedStays } from '@/src/services/hotelService';
 import { Button } from '../ui/Button';
 
+import { useLanguage } from '@/src/lib/LanguageContext';
+
 export const PromotedStaySection: React.FC = () => {
+    const { t } = useLanguage();
     const [stays, setStays] = useState<PromotedStay[]>([]);
     const [timeLeft, setTimeLeft] = useState({ hours: 7, minutes: 48, seconds: 16 });
 
@@ -38,13 +41,13 @@ export const PromotedStaySection: React.FC = () => {
                              <Timer size={24} />
                         </div>
                         <div>
-                            <h2 className="text-2xl font-black text-slate-900 leading-none mb-1">Promoted Stay</h2>
-                            <p className="text-sm font-bold text-orange-500 font-sans">Exclusive deals for you</p>
+                            <h2 className="text-2xl font-black text-slate-900 leading-none mb-1">{t.promoted.title}</h2>
+                            <p className="text-sm font-bold text-orange-500 font-sans">{t.promoted.subtitle}</p>
                         </div>
                     </div>
 
                     <div className="flex items-center gap-4">
-                        <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Ending in</span>
+                        <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{t.promoted.endingIn}</span>
                         <div className="flex items-center gap-1">
                             {[timeLeft.hours, timeLeft.minutes, timeLeft.seconds].map((val, idx) => (
                                 <React.Fragment key={idx}>
@@ -83,11 +86,11 @@ export const PromotedStaySection: React.FC = () => {
                             <div className="relative h-56 overflow-hidden">
                                 <img src={stay.image} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="" />
                                 <div className="absolute top-4 left-4 flex flex-col gap-2">
-                                    <span className="px-3 py-1 bg-brand-600 text-white rounded-lg text-[9px] font-black uppercase tracking-widest shadow-lg">Save {stay.discount}%</span>
+                                    <span className="px-3 py-1 bg-brand-600 text-white rounded-lg text-[9px] font-black uppercase tracking-widest shadow-lg">{t.promoted.save} {stay.discount}%</span>
                                     <div className="flex gap-2">
                                        {stay.remainingRooms && (
                                            <span className="px-2 py-1 bg-white/95 backdrop-blur-sm text-red-600 rounded-lg text-[9px] font-black uppercase tracking-widest shadow-sm ring-1 ring-red-100">
-                                              {stay.remainingRooms} kamar tersisa
+                                              {stay.remainingRooms} {t.promoted.left}
                                            </span>
                                        )}
                                     </div>
@@ -127,7 +130,7 @@ export const PromotedStaySection: React.FC = () => {
                                             <span className="text-xl font-black text-brand-600">IDR {stay.price.toLocaleString()}</span>
                                             <div className="w-4 h-4 bg-brand-100 rounded-full flex items-center justify-center text-brand-600 text-[10px] font-black">?</div>
                                         </div>
-                                        <p className="text-[10px] text-slate-400 font-bold mt-1">Belum termasuk pajak</p>
+                                        <p className="text-[10px] text-slate-400 font-bold mt-1">{t.promoted.taxNote}</p>
                                     </div>
                                     <button className="w-10 h-10 bg-brand-50 text-brand-600 rounded-2xl flex items-center justify-center hover:bg-brand-600 hover:text-white transition-all shadow-sm">
                                         <ChevronRight size={20} />
@@ -139,12 +142,12 @@ export const PromotedStaySection: React.FC = () => {
 
                     <div className="grid grid-cols-2 gap-4 lg:col-span-1">
                         {[
-                            { label: 'Top picks', icon: '🔥' },
-                            { label: 'Nginep hemat', icon: '💰' },
-                            { label: 'Hotel mewah', icon: '🏨' },
-                            { label: 'Preferred Partner', icon: '🤝' },
-                            { label: 'Hidden gems', icon: '💎' },
-                            { label: 'Ramah anak', icon: '👶' }
+                            { label: t.promoted.topPicks, icon: '🔥' },
+                            { label: t.promoted.nginepHemat, icon: '💰' },
+                            { label: t.promoted.hotelMewah, icon: '🏨' },
+                            { label: t.promoted.partner, icon: '🤝' },
+                            { label: t.promoted.gems, icon: '💎' },
+                            { label: t.promoted.kids, icon: '👶' }
                         ].slice(0, 4).map((item, idx) => (
                             <button key={idx} className="bg-white p-4 rounded-3xl border border-orange-50 flex flex-col items-center justify-center text-center group hover:shadow-lg transition-all">
                                 <span className="text-2xl mb-2 group-hover:scale-125 transition-transform">{item.icon}</span>

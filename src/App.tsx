@@ -20,7 +20,18 @@ interface UserState {
   email: string;
 }
 
+import { LanguageProvider, useLanguage } from '@/src/lib/LanguageContext';
+
 export default function App() {
+  return (
+    <LanguageProvider>
+      <AppContent />
+    </LanguageProvider>
+  );
+}
+
+function AppContent() {
+  const { locale, setLocale, t } = useLanguage();
   const [destination, setDestination] = useState('');
   const [dateRange, setDateRange] = useState<{ start: Date | null, end: Date | null }>({
     start: null,
@@ -75,7 +86,7 @@ export default function App() {
       {/* Header */}
       <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-          <div className="flex items-center gap-2 cursor-pointer group" onClick={resetAll}>
+          <div className="flex items-center gap-3 cursor-pointer group" onClick={resetAll}>
             <div className="w-10 h-10 bg-brand-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-brand-500/30 group-hover:scale-110 transition-transform">
               <HotelIcon className="w-6 h-6" />
             </div>
@@ -84,7 +95,21 @@ export default function App() {
             </span>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-8">
+            <div className="flex items-center bg-slate-100/50 p-1 rounded-2xl border border-slate-200/50">
+              <button 
+                onClick={() => setLocale('en')}
+                className={`px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${locale === 'en' ? 'bg-white text-brand-600 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
+              >
+                EN
+              </button>
+              <button 
+                onClick={() => setLocale('id')}
+                className={`px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${locale === 'id' ? 'bg-white text-brand-600 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
+              >
+                ID
+              </button>
+            </div>
             {user ? (
               <div className="flex items-center gap-4">
                 <button 
@@ -93,7 +118,7 @@ export default function App() {
                 >
                   <div className="hidden sm:flex flex-col items-end">
                     <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest group-hover:text-brand-600 transition-colors">{user.name}</span>
-                    <span className="text-xs font-bold text-emerald-600">Pro Member</span>
+                    <span className="text-xs font-bold text-emerald-600">{t.nav.proMember}</span>
                   </div>
                   <div className="w-10 h-10 rounded-2xl bg-slate-100 flex items-center justify-center text-slate-400 border border-slate-200 group-hover:border-brand-300 group-hover:bg-brand-50 group-hover:text-brand-600 transition-all">
                       <User size={20} />
@@ -104,9 +129,15 @@ export default function App() {
                 </button>
               </div>
             ) : (
-              <div className="flex items-center gap-2">
-                <Button variant="ghost" className="hidden sm:inline-flex" onClick={() => setIsAuthModalOpen(true)}>Log In</Button>
-                <Button size="md" onClick={() => setIsAuthModalOpen(true)}>Sign Up</Button>
+              <div className="flex items-center">
+                <Button 
+                  size="md" 
+                  variant="primary"
+                  onClick={() => setIsAuthModalOpen(true)}
+                  className="px-6 rounded-xl font-black uppercase tracking-widest text-[11px]"
+                >
+                  {t.nav.login}
+                </Button>
               </div>
             )}
           </div>

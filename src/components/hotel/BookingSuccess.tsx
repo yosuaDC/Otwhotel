@@ -11,7 +11,10 @@ interface BookingSuccessProps {
   onReset: () => void;
 }
 
+import { useLanguage } from '@/src/lib/LanguageContext';
+
 export const BookingSuccess: React.FC<BookingSuccessProps> = ({ hotel, dateRange, onReset }) => {
+    const { t } = useLanguage();
     return (
         <motion.div 
             initial={{ opacity: 0, scale: 0.95 }}
@@ -28,10 +31,9 @@ export const BookingSuccess: React.FC<BookingSuccessProps> = ({ hotel, dateRange
                 <ShieldCheck size={56} />
             </motion.div>
             
-            <h1 className="text-4xl md:text-5xl font-black text-slate-900 mb-6 tracking-tight leading-tight">Booking Secured!</h1>
+            <h1 className="text-4xl md:text-5xl font-black text-slate-900 mb-6 tracking-tight leading-tight">{t.bookingSuccess.title}</h1>
             <p className="text-lg text-slate-600 mb-12 font-sans max-w-md mx-auto">
-                Your luxury stay at <span className="font-black text-slate-900">{hotel.name}</span> is officially confirmed. 
-                Check your inbox for the welcome pack.
+                {t.bookingSuccess.resort} <span className="font-black text-slate-900">{hotel.name}</span> {t.bookingSuccess.subtitle}
             </p>
 
             <div className="bg-white p-8 rounded-[2.5rem] border border-slate-100 text-left mb-12 shadow-2xl shadow-slate-200/40 relative overflow-hidden">
@@ -39,27 +41,27 @@ export const BookingSuccess: React.FC<BookingSuccessProps> = ({ hotel, dateRange
                 
                 <h3 className="font-black text-slate-900 mb-8 flex items-center gap-2 uppercase tracking-widest text-[10px]">
                     <div className="w-1.5 h-4 bg-brand-600 rounded-full" />
-                    Reservation Summary
+                    {t.bookingSuccess.summaryTitle}
                 </h3>
                 
                 <div className="space-y-6">
                     <div className="flex justify-between items-end pb-4 border-b border-slate-50">
-                        <span className="text-slate-400 text-[10px] font-black uppercase tracking-widest">Resort</span>
+                        <span className="text-slate-400 text-[10px] font-black uppercase tracking-widest">{t.bookingSuccess.resort}</span>
                         <span className="text-slate-900 text-sm font-black">{hotel.name}</span>
                     </div>
                     <div className="flex justify-between items-end pb-4 border-b border-slate-50">
-                        <span className="text-slate-400 text-[10px] font-black uppercase tracking-widest">Check-in / Out</span>
+                        <span className="text-slate-400 text-[10px] font-black uppercase tracking-widest">{t.bookingSuccess.checkInOut}</span>
                         <span className="text-slate-900 text-sm font-black">
                             {dateRange.start && dateRange.end && `${format(dateRange.start, 'MMM d')} - ${format(dateRange.end, 'MMM d')}`}
                         </span>
                     </div>
                     <div className="flex justify-between items-end pb-4 border-b border-slate-50">
-                        <span className="text-slate-400 text-[10px] font-black uppercase tracking-widest">Location</span>
+                        <span className="text-slate-400 text-[10px] font-black uppercase tracking-widest">{t.bookingSuccess.location}</span>
                         <span className="text-slate-900 text-sm font-black">{hotel.location}</span>
                     </div>
                     <div className="flex justify-between items-end">
-                        <span className="text-slate-400 text-[10px] font-black uppercase tracking-widest">Booking Status</span>
-                        <span className="px-3 py-1 bg-emerald-100 text-emerald-700 rounded-xl text-[10px] font-black uppercase tracking-widest ring-4 ring-emerald-50">Verified Confirmed</span>
+                        <span className="text-slate-400 text-[10px] font-black uppercase tracking-widest">{t.bookingSuccess.status}</span>
+                        <span className="px-3 py-1 bg-emerald-100 text-emerald-700 rounded-xl text-[10px] font-black uppercase tracking-widest ring-4 ring-emerald-50">{t.bookingSuccess.verified}</span>
                     </div>
                 </div>
             </div>
@@ -70,7 +72,7 @@ export const BookingSuccess: React.FC<BookingSuccessProps> = ({ hotel, dateRange
                 size="lg"
                 className="px-16"
             >
-                Back to Home
+                {t.bookingSuccess.backHome}
             </Button>
         </motion.div>
     );

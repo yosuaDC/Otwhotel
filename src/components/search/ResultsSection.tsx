@@ -25,6 +25,8 @@ interface ResultsSectionProps {
 
 type SortOption = 'score' | 'price-low' | 'price-high' | 'rating';
 
+import { useLanguage } from '@/src/lib/LanguageContext';
+
 export const ResultsSection: React.FC<ResultsSectionProps> = ({ 
   results, 
   isLoading, 
@@ -32,6 +34,7 @@ export const ResultsSection: React.FC<ResultsSectionProps> = ({
   onBack, 
   onSelectHotel 
 }) => {
+  const { t } = useLanguage();
   const [sortBy, setSortBy] = useState<SortOption>('score');
   const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
@@ -95,14 +98,14 @@ export const ResultsSection: React.FC<ResultsSectionProps> = ({
             className="text-brand-600 flex items-center gap-1 text-[10px] font-black uppercase tracking-[0.2em] mb-4 hover:translate-x-[-4px] transition-transform"
           >
             <ChevronRight className="rotate-180" size={14} />
-            <span>Change Search</span>
+            <span>{t.results.backLink}</span>
           </button>
           <h2 className="text-4xl font-black text-slate-900 leading-tight mb-3">
-            {isLoading ? 'Scanning Best Options...' : 'Recommended Stays'}
+            {isLoading ? t.results.scanning : t.results.recommended}
           </h2>
           <div className="flex flex-wrap items-center gap-3">
             <span className="text-slate-500 font-sans text-sm">
-                Showing top value options for
+                {t.results.showingTop}
             </span>
             <span className="inline-flex items-center gap-2 bg-brand-50 text-brand-700 px-3 py-1 rounded-xl border border-brand-100 font-bold text-xs">
                 <Calendar size={12} />
@@ -110,7 +113,7 @@ export const ResultsSection: React.FC<ResultsSectionProps> = ({
             </span>
             {!isLoading && filteredAndSortedResults.length !== results.length && (
               <span className="text-[10px] font-black text-brand-600 uppercase tracking-widest bg-brand-50 px-2 py-0.5 rounded-md">
-                {filteredAndSortedResults.length} Matched
+                {filteredAndSortedResults.length} {t.results.matched}
               </span>
             )}
           </div>
@@ -125,10 +128,10 @@ export const ResultsSection: React.FC<ResultsSectionProps> = ({
                 onChange={(e) => setSortBy(e.target.value as SortOption)}
                 className="appearance-none bg-white border border-slate-200 pl-5 pr-12 py-4 rounded-2xl text-[10px] font-black uppercase tracking-widest text-slate-700 shadow-sm hover:border-brand-300 focus:outline-none focus:ring-2 focus:ring-brand-500/20 transition-all cursor-pointer"
               >
-                <option value="score">Sort by: Smart Score</option>
-                <option value="price-low">Price: Low to High</option>
-                <option value="price-high">Price: High to Low</option>
-                <option value="rating">Top Rated</option>
+                <option value="score">{t.results.sortBy}: {t.results.smartScore}</option>
+                <option value="price-low">{t.results.priceLow}</option>
+                <option value="price-high">{t.results.priceHigh}</option>
+                <option value="rating">{t.results.topRated}</option>
               </select>
               <ChevronDown className="absolute right-5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" size={18} />
             </div>
@@ -143,7 +146,7 @@ export const ResultsSection: React.FC<ResultsSectionProps> = ({
               }`}
             >
               <SlidersHorizontal size={18} />
-              <span>Filters {selectedAmenities.length > 0 && `(${selectedAmenities.length})`}</span>
+              <span>{t.results.filters} {selectedAmenities.length > 0 && `(${selectedAmenities.length})`}</span>
             </button>
           </div>
         )}
@@ -160,12 +163,12 @@ export const ResultsSection: React.FC<ResultsSectionProps> = ({
           >
             <div className="bg-slate-50 border border-slate-200 rounded-[2.5rem] p-8">
               <div className="flex items-center justify-between mb-8">
-                <h4 className="text-xs font-black text-slate-400 uppercase tracking-[0.2em]">Refine your experience</h4>
+                <h4 className="text-xs font-black text-slate-400 uppercase tracking-[0.2em]">{t.results.refine}</h4>
                 <button 
                   onClick={clearFilters}
                   className="text-[10px] font-black text-brand-600 uppercase tracking-widest hover:text-brand-700 underline"
                 >
-                  Reset All
+                  {t.results.resetAll}
                 </button>
               </div>
               

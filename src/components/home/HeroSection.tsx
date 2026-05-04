@@ -14,6 +14,8 @@ interface HeroSectionProps {
   isSearching: boolean;
 }
 
+import { useLanguage } from '@/src/lib/LanguageContext';
+
 export const HeroSection: React.FC<HeroSectionProps> = ({
   destination,
   setDestination,
@@ -22,6 +24,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   handleSearch,
   isSearching,
 }) => {
+  const { t } = useLanguage();
   const [showPicker, setShowPicker] = useState(false);
 
   return (
@@ -41,16 +44,16 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
            className="inline-flex items-center gap-2 px-3 py-1 bg-brand-100/50 text-brand-700 backdrop-blur-sm rounded-full text-xs font-black uppercase tracking-widest mb-6 border border-brand-200"
         >
           <Zap size={14} className="fill-brand-600 text-brand-600" />
-          <span>Stop Comparing. Start Booking.</span>
+          <span>{t.hero.badge}</span>
         </motion.div>
         
         <h1 className="text-4xl md:text-7xl font-black tracking-tight text-slate-900 mb-6 leading-[1.1]">
-          The Smartest Way to <br />
-          <span className="gradient-text">Find Your Stay</span>
+          {t.hero.titleTop} <br />
+          <span className="gradient-text">{t.hero.titleBottom}</span>
         </h1>
         
         <p className="text-base md:text-xl text-slate-600 max-w-2xl mx-auto mb-12 font-sans">
-          We analyze thousands of hotels and filter them by value, quality, and real guest sentiment. You don't need to check 5 tabs anymore.
+          {t.hero.subtext}
         </p>
 
         <div className="max-w-4xl mx-auto relative z-20">
@@ -59,7 +62,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               <MapPin size={20} className="text-brand-500 mr-3 shrink-0" />
               <input 
                 type="text" 
-                placeholder="Where are you going?" 
+                placeholder={t.hero.destinationPlaceholder} 
                 value={destination}
                 onChange={(e) => setDestination(e.target.value)}
                 className="bg-transparent border-none focus:ring-0 text-slate-800 placeholder:text-slate-400 w-full font-bold"
@@ -70,11 +73,11 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             <div className="flex-grow relative flex items-center px-4 py-3 w-full lg:border-r border-slate-200 cursor-pointer hover:bg-slate-50/20 transition-colors" onClick={() => setShowPicker(!showPicker)}>
               <Calendar size={20} className="text-brand-500 mr-3 shrink-0" />
               <div className="flex flex-col items-start min-w-0">
-                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1">Dates</span>
+                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1">{t.hero.datesLabel}</span>
                 <span className="text-sm font-bold text-slate-800 truncate">
                   {dateRange.start && dateRange.end 
                     ? `${format(dateRange.start, 'MMM d')} - ${format(dateRange.end, 'MMM d')}` 
-                    : 'Select Dates'}
+                    : t.hero.datesPlaceholder}
                 </span>
               </div>
               <AnimatePresence>
@@ -94,6 +97,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                           endDate={dateRange.end} 
                           onChange={(start, end) => setDateRange({ start, end })}
                           onClose={() => setShowPicker(false)}
+                          confirmLabel={t.hero.confirmStay}
+                          selectLabel={t.hero.selectDates}
                         />
                       </div>
                     </div>
@@ -118,7 +123,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               className="lg:w-auto w-full"
               leftIcon={!isSearching && <Search size={20} />}
             >
-              Search
+              {isSearching ? t.hero.searching : t.hero.searchButton}
             </Button>
           </form>
         </div>

@@ -19,7 +19,10 @@ interface ProfileSectionProps {
   onBack: () => void;
 }
 
+import { useLanguage } from '@/src/lib/LanguageContext';
+
 export const ProfileSection: React.FC<ProfileSectionProps> = ({ user, onBack }) => {
+    const { t } = useLanguage();
     const [bookings, setBookings] = useState<Booking[] | null>(null);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -44,7 +47,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({ user, onBack }) 
                 className="text-brand-600 flex items-center gap-1 text-[10px] font-black uppercase tracking-[0.2em] mb-10 hover:translate-x-[-4px] transition-transform"
             >
                 <ChevronRight className="rotate-180" size={14} />
-                <span>Return to Explore</span>
+                <span>{t.profile.return}</span>
             </button>
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
@@ -62,16 +65,16 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({ user, onBack }) 
                             
                             <div className="flex items-center gap-2 px-4 py-1.5 bg-emerald-50 text-emerald-700 rounded-full text-[10px] font-black uppercase tracking-widest border border-emerald-100 mb-8">
                                 <ShieldCheck size={12} />
-                                Verified Member
+                                {t.profile.verified}
                             </div>
 
                             <div className="w-full grid grid-cols-2 gap-4">
                                 <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                                    <span className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Stays</span>
+                                    <span className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">{t.profile.stays}</span>
                                     <span className="text-xl font-black text-slate-900">42</span>
                                 </div>
                                 <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                                    <span className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Points</span>
+                                    <span className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">{t.profile.points}</span>
                                     <span className="text-xl font-black text-brand-600">8.2k</span>
                                 </div>
                             </div>
@@ -80,10 +83,10 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({ user, onBack }) 
 
                     <div className="bg-white rounded-[2rem] border border-slate-100 overflow-hidden divide-y divide-slate-50">
                         {[
-                            { icon: History, label: 'Booking History', active: true },
-                            { icon: CreditCard, label: 'Payment Methods' },
-                            { icon: Star, label: 'My Reviews' },
-                            { icon: Settings, label: 'Account Settings' }
+                            { icon: History, label: t.profile.history, active: true },
+                            { icon: CreditCard, label: t.profile.payment },
+                            { icon: Star, label: t.profile.reviews },
+                            { icon: Settings, label: t.profile.settings }
                         ].map((item, idx) => (
                             <button 
                                 key={idx}
@@ -103,12 +106,12 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({ user, onBack }) 
                 <div className="lg:col-span-8">
                     <div className="mb-10 flex items-end justify-between">
                         <div>
-                            <h3 className="text-4xl font-black text-slate-900 tracking-tight mb-2">Booking History</h3>
-                            <p className="text-slate-400 font-sans text-sm">Manage and track your luxury experiences.</p>
+                            <h3 className="text-4xl font-black text-slate-900 tracking-tight mb-2">{t.profile.history}</h3>
+                            <p className="text-slate-400 font-sans text-sm">{t.profile.manage}</p>
                         </div>
                         <div className="flex bg-slate-100 p-1 rounded-xl">
-                            <button className="px-4 py-2 bg-white rounded-lg text-[10px] font-black uppercase tracking-widest shadow-sm">All</button>
-                            <button className="px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-slate-600">Upcoming</button>
+                            <button className="px-4 py-2 bg-white rounded-lg text-[10px] font-black uppercase tracking-widest shadow-sm">{t.profile.all}</button>
+                            <button className="px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-slate-600">{t.profile.upcoming}</button>
                         </div>
                     </div>
 
@@ -177,7 +180,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({ user, onBack }) 
                                                 <span className="text-xs font-black text-slate-900">{booking.dateRange}</span>
                                             </div>
                                             <div className="flex flex-col gap-1 items-end">
-                                                <span className="text-[10px] text-slate-400 font-black uppercase tracking-widest">Amount Paid</span>
+                                                <span className="text-[10px] text-slate-400 font-black uppercase tracking-widest">{t.profile.amountPaid}</span>
                                                 <span className="text-sm font-black text-emerald-600">Rp {booking.totalPrice.toLocaleString()}</span>
                                             </div>
                                         </div>
@@ -189,8 +192,8 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({ user, onBack }) 
                                 <div className="w-16 h-16 bg-slate-100 text-slate-300 rounded-full flex items-center justify-center mx-auto mb-4">
                                     <History size={32} />
                                 </div>
-                                <h4 className="font-black text-slate-900 mb-2">No bookings yet</h4>
-                                <p className="text-slate-400 text-sm font-sans">Start your first luxury adventure today.</p>
+                                <h4 className="font-black text-slate-900 mb-2">{t.profile.noBookings}</h4>
+                                <p className="text-slate-400 text-sm font-sans">{t.profile.startAdventure}</p>
                             </div>
                         )}
                     </div>
